@@ -1,0 +1,8 @@
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\bin\Debug\ComparerLibraryTests.dll
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\bin\Debug\ComparerLibraryTests.pdb
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\bin\Debug\ComparerLibrary.dll
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\bin\Debug\ComparerLibrary.pdb
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\obj\Debug\ComparerLibraryTests.csprojResolveAssemblyReference.cache
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\obj\Debug\ComparerLibraryTests.dll
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibraryTests\obj\Debug\ComparerLibraryTests.pdb

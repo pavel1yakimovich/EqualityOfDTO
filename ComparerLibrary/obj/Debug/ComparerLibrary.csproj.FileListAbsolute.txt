@@ -1,0 +1,4 @@
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibrary\bin\Debug\ComparerLibrary.dll
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibrary\bin\Debug\ComparerLibrary.pdb
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.dll
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.pdb

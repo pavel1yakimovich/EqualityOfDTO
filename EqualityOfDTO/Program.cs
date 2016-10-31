@@ -1,10 +1,11 @@
-﻿using System;
-
-namespace EqualityOfDTO
+﻿namespace EqualityOfDTO
 {
-    class Program
+    using System;
+    using ConparerLibrary;
+
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Test var1 = new Test(1, 'q', "qwerty", 2.3);
             Test var2 = new Test(1, 'q', "qwerty", 2.3);
