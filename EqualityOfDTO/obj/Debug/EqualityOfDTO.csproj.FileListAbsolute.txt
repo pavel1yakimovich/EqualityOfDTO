@@ -1,0 +1,6 @@
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\EqualityOfDTO\bin\Debug\EqualityOfDTO.exe.config
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\EqualityOfDTO\bin\Debug\EqualityOfDTO.exe
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\EqualityOfDTO\bin\Debug\EqualityOfDTO.pdb
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\EqualityOfDTO\obj\Debug\EqualityOfDTO.csprojResolveAssemblyReference.cache
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\EqualityOfDTO\obj\Debug\EqualityOfDTO.exe
+C:\Users\Pavel_Yakimovich\Documents\Visual Studio 2015\Projects\EqualityOfDTO\EqualityOfDTO\obj\Debug\EqualityOfDTO.pdb
