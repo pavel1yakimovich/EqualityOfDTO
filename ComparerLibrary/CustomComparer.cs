@@ -1,4 +1,4 @@
-﻿namespace EqualityOfDTO
+﻿namespace ComparerLibrary
 {
     using System.Reflection;
 

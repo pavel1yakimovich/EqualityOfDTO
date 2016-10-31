@@ -1,6 +1,6 @@
 ﻿namespace ComparerLibraryTests
 {
-    using ConparerLibrary;
+    using ComparerLibrary;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
