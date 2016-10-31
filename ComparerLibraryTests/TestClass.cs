@@ -1,5 +1,6 @@
 ﻿namespace ComparerLibraryTests
 {
+    using ComparerLibrary;
     public class TestClass
     {
         private int prop1;
@@ -14,6 +15,7 @@
             this.CompositeProp = prop5;
         }
 
+        [NotComparable]
         public string Prop3 { get; set; }
 
         public double Prop4 { get; set; }

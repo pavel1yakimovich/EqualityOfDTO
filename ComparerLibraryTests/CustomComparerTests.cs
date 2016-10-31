@@ -51,5 +51,15 @@
 
             Assert.IsTrue(CustomComparer<TestClass>.Compare(var1, var2));
         }
+
+        [TestMethod]
+        public void CompareTwoObijectsWithDifferentPropertiesWithAttributes()
+        {
+            var prop5 = new TestClass(2, 'e', "1234", 1.65, null);
+            var var1 = new TestClass(1, 'q', "qwe", 2.3, prop5);
+            var var2 = new TestClass(1, 'q', "qwerty", 2.3, prop5);
+
+            Assert.IsTrue(CustomComparer<TestClass>.Compare(var1, var2));
+        }
     }
 }

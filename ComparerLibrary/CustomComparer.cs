@@ -1,5 +1,6 @@
 ﻿namespace ComparerLibrary
 {
+    using System;
     using System.Reflection;
 
     public static class CustomComparer<T>
@@ -21,6 +22,11 @@
 
             foreach (PropertyInfo property in propertiesNames)
             {
+                if (CheckAttribute(property))
+                {
+                    continue;
+                }
+
                 var prop1 = elem1.GetType().GetProperty(property.Name).GetValue(elem1);
                 var prop2 = elem2.GetType().GetProperty(property.Name).GetValue(elem2);
 
@@ -46,6 +52,21 @@
             }
 
             return true;
+        }
+
+        private static bool CheckAttribute (PropertyInfo property)
+        {
+            var attrs = property.CustomAttributes;
+
+            foreach (var item in attrs)
+            {
+                if (item.AttributeType.FullName == "ComparerLibrary.NotComparableAttribute") // bydlokod. cahnge!!!
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
