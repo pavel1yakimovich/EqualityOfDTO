@@ -31,7 +31,7 @@
 
             foreach (PropertyInfo property in propertiesNames)
             {
-                if (CheckAttribute(property))
+                if (CheckNotComparableAttribute(property))
                 {
                     continue;
                 }
@@ -40,6 +40,11 @@
                 var prop2 = elem2.GetType().GetProperty(property.Name).GetValue(elem2);
 
                 if (ReferenceEquals(prop1, prop2))
+                {
+                    continue;
+                }
+
+                if (CheckAccuracyAttribute(property, prop1, prop2))
                 {
                     continue;
                 }
@@ -60,7 +65,7 @@
             return true;
         }
 
-        private static bool CheckAttribute(PropertyInfo property)
+        private static bool CheckNotComparableAttribute(PropertyInfo property)
         {
             var attrs = property.CustomAttributes;
 
@@ -73,6 +78,68 @@
             }
 
             return false;
+        }
+
+        private static bool CheckAccuracyAttribute(PropertyInfo property, object obj1, object obj2)
+        {
+            var attrs = property.CustomAttributes;
+            
+            foreach (var item in attrs)
+            {
+                if (item.AttributeType.FullName == typeof(AccuracyAttribute).FullName)
+                {
+                    if (obj1.GetType() == typeof(DateTime))
+                    {
+                        DateItem accuracy = DateItem.Day;
+                        return CompareDates((DateTime)obj1, (DateTime)obj1, accuracy);
+                    }
+
+                    if (obj1.GetType() == typeof(double) || obj1.GetType() == typeof(float))
+                    {
+                        int accuracy = 1;
+                        return Math.Round((double)obj1, accuracy) == 
+                            Math.Round((double)obj2, accuracy);
+                    }
+
+                    if (obj1.GetType() == typeof(decimal))
+                    {
+                        int accuracy = 1;
+                        return decimal.Round((decimal)obj1, accuracy) ==
+                            decimal.Round((decimal)obj2, accuracy);
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static bool CompareDates(DateTime date1, DateTime date2, DateItem parameter)
+        {
+            switch (parameter)
+            {
+                case DateItem.Year:
+                    return date1.Year == date2.Year;
+                case DateItem.Month:
+                    return date1.Year == date2.Year && date1.Month == date2.Month;
+                case DateItem.Day:
+                    return date1.Year == date2.Year && date1.Month == date2.Month
+                        && date1.Day == date2.Day;
+                case DateItem.Hour:
+                    return date1.Year == date2.Year && date1.Month == date2.Month
+                        && date1.Day == date2.Day && date1.Hour == date2.Hour;
+                case DateItem.Minute:
+                    return date1.Year == date2.Year && date1.Month == date2.Month
+                        && date1.Day == date2.Day && date1.Hour == date2.Hour
+                        && date1.Minute == date2.Minute;
+                case DateItem.Second:
+                    return date1.Year == date2.Year && date1.Month == date2.Month
+                         && date1.Day == date2.Day && date1.Hour == date2.Hour
+                         && date1.Minute == date2.Minute && date1.Second == date2.Second;
+                case DateItem.Millisecond:
+                    return date1 == date2;
+
+                default: return false;
+            }
         }
     }
 }

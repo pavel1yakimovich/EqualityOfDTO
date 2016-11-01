@@ -53,6 +53,7 @@
     <Compile Include="TestClass.cs" />
     <Compile Include="CustomComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestClassWithDate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ComparerLibrary\ComparerLibrary.csproj">

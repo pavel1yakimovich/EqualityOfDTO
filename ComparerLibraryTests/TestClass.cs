@@ -1,31 +1,7 @@
 ﻿namespace ComparerLibraryTests
 {
+    using System;
     using ComparerLibrary;
-
-    public class TestClass
-    {
-        private int prop1;
-        private char prop2;
-        
-        public TestClass(int prop1, char prop2, string prop3, double prop4, TestClass prop5, TestStruct? prop6)
-        {
-            this.prop1 = prop1;
-            this.prop2 = prop2;
-            this.Prop3 = prop3;
-            this.Prop4 = prop4;
-            this.CompositeProp = prop5;
-            this.StructProp = prop6;
-        }
-
-        [NotComparable]
-        public string Prop3 { get; set; }
-
-        public double Prop4 { get; set; }
-
-        public TestClass CompositeProp { get; set; }
-
-        public TestStruct? StructProp { get; set; }
-    }
 
     public struct TestStruct
     {
@@ -47,5 +23,30 @@
         public double Prop4 { get; set; }
 
         public TestClass CompositeProp { get; set; }
+    }
+
+    public class TestClass
+    {
+        private int prop1;
+        private char prop2;
+
+        public TestClass(int prop1, char prop2, string prop3, double prop4, TestClass prop5, TestStruct? prop6)
+        {
+            this.prop1 = prop1;
+            this.prop2 = prop2;
+            this.Prop3 = prop3;
+            this.Prop4 = prop4;
+            this.CompositeProp = prop5;
+            this.StructProp = prop6;
+        }
+
+        [NotComparable]
+        public string Prop3 { get; set; }
+
+        public double Prop4 { get; set; }
+
+        public TestClass CompositeProp { get; set; }
+
+        public TestStruct? StructProp { get; set; }
     }
 }

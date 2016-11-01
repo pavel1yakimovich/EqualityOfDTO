@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccuracyAttribute.cs" />
     <Compile Include="CustomComparer.cs" />
     <Compile Include="NotComparable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
