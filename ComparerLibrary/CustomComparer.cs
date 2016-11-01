@@ -18,6 +18,15 @@
                 return true;
             }
 
+            if (elem1.Equals(elem2))
+            {
+                return true;
+            }
+            else if (elem1.GetType().GetProperties().Length == 0)
+            {
+                return false;
+            }
+
             var propertiesNames = elem1.GetType().GetProperties();
 
             foreach (PropertyInfo property in propertiesNames)
@@ -35,32 +44,29 @@
                     continue;
                 }
 
-                if (prop1.GetType().IsClass && prop1.GetType() != string.Empty.GetType())
+                if (prop1.Equals(prop2))
                 {
-                    if (!Compare(prop1, prop2))
-                    {
-                        return false;
-                    }
+                    continue;
                 }
-                else
+
+                if (Compare(prop1, prop2))
                 {
-                    if (!prop1.Equals(prop2))
-                    {
-                        return false;
-                    }
+                    continue;
                 }
+
+                return false;
             }
 
             return true;
         }
 
-        private static bool CheckAttribute (PropertyInfo property)
+        private static bool CheckAttribute(PropertyInfo property)
         {
             var attrs = property.CustomAttributes;
 
             foreach (var item in attrs)
             {
-                if (item.AttributeType.FullName == "ComparerLibrary.NotComparableAttribute") // bydlokod. cahnge!!!
+                if (item.AttributeType.FullName == typeof(NotComparableAttribute).FullName)
                 {
                     return true;
                 }

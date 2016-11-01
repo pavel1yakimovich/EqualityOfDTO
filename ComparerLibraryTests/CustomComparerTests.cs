@@ -7,29 +7,29 @@
     public class CustomComparerTests
     {
         [TestMethod]
-        public void CompareTwoSameObijects_True()
+        public void CompareTwoSameObjects_True()
         {
-            var prop5 = new TestClass(2, 'e', "1234", 1.65, null);
-            var var1 = new TestClass(1, 'q', "qwerty", 2.3, prop5);
-            var var2 = new TestClass(1, 'q', "qwerty", 2.3, prop5);
+            var prop5 = new TestClass(2, 'e', "1234", 1.65, null, null);
+            var var1 = new TestClass(1, 'q', "qwerty", 2.3, prop5, null);
+            var var2 = new TestClass(1, 'q', "qwerty", 2.3, prop5, null);
 
             Assert.IsTrue(CustomComparer<TestClass>.Compare(var1, var2));
         }
 
         [TestMethod]
-        public void CompareTwoObijectsWithSameProperties()
+        public void CompareTwoObjectsWithSameProperties()
         {
-            var var1 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, null));
-            var var2 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, null));
+            var var1 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, null, null), new TestStruct(2, 'w', "1234", 1.65, null));
+            var var2 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, null, null), new TestStruct(2, 'w', "1234", 1.65, null));
 
             Assert.IsTrue(CustomComparer<TestClass>.Compare(var1, var2));
         }
 
         [TestMethod]
-        public void CompareTwoObijectsWithDifferentFields()
+        public void CompareTwoObjectsWithDifferentFields()
         {
-            var var1 = new TestClass(1, 'w', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, null));
-            var var2 = new TestClass(2, 'q', "qwerty", 2.3, new TestClass(3, 'r', "1234", 1.65, null));
+            var var1 = new TestClass(1, 'w', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, null, null), new TestStruct(2, 'w', "1234", 1.65, null));
+            var var2 = new TestClass(2, 'q', "qwerty", 2.3, new TestClass(3, 'r', "1234", 1.65, null, null), new TestStruct(2, 'w', "1234", 1.65, null));
 
             Assert.IsTrue(CustomComparer<TestClass>.Compare(var1, var2));
         }
@@ -37,27 +37,27 @@
         [TestMethod]
         public void CompareTwoDifferentObjects()
         {
-            var var1 = new TestClass(1, 'w', "qwerty", 2.3, new TestClass(2, 'w', "1234", 2.65, null));
-            var var2 = new TestClass(2, 'q', "qwerty", 2.3, new TestClass(3, 'r', "1234", 1.65, null));
+            var var1 = new TestClass(1, 'w', "qwerty", 2.3, new TestClass(2, 'w', "1234", 2.65, null, null), null);
+            var var2 = new TestClass(2, 'q', "qwerty", 2.3, new TestClass(3, 'r', "1234", 1.65, null,null), null);
 
             Assert.IsFalse(CustomComparer<TestClass>.Compare(var1, var2));
         }
 
         [TestMethod]
-        public void CompareTwoObijectsThreeObjectsInDepth()
+        public void CompareTwoObjectsThreeObjectsInDepth()
         {
-            var var1 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, new TestClass(3, 't', "1234", 1.65, null)));
-            var var2 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, new TestClass(5, 'u', "1234", 1.65, null)));
+            var var1 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, new TestClass(3, 't', "1234", 1.65, null, new TestStruct(2, 'w', "1234", 1.65, null)), null), new TestStruct(2, 'w', "1234", 1.65, null));
+            var var2 = new TestClass(1, 'q', "qwerty", 2.3, new TestClass(2, 'w', "1234", 1.65, new TestClass(5, 'u', "1234", 1.65, null, new TestStruct(2, 'w', "1234", 1.65, null)), null), new TestStruct(2, 'w', "1234", 1.65, null));
 
             Assert.IsTrue(CustomComparer<TestClass>.Compare(var1, var2));
         }
 
         [TestMethod]
-        public void CompareTwoObijectsWithDifferentPropertiesWithAttributes()
+        public void CompareTwoObjectsWithDifferentPropertiesWithAttributes()
         {
-            var prop5 = new TestClass(2, 'e', "1234", 1.65, null);
-            var var1 = new TestClass(1, 'q', "qwe", 2.3, prop5);
-            var var2 = new TestClass(1, 'q', "qwerty", 2.3, prop5);
+            var prop5 = new TestClass(2, 'e', "1234", 1.65, null, new TestStruct(2, 'w', "1234", 1.65, null));
+            var var1 = new TestClass(1, 'q', "qwe", 2.3, prop5, new TestStruct(2, 'w', "2345", 1.65, null));
+            var var2 = new TestClass(1, 'q', "qwerty", 2.3, prop5, new TestStruct(2, 'w', "1234", 1.65, null));
 
             Assert.IsTrue(CustomComparer<TestClass>.Compare(var1, var2));
         }

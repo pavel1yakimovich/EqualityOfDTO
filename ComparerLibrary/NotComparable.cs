@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ComparerLibrary
+﻿namespace ComparerLibrary
 {
+    using System;
+
     /// <summary>
     /// Attribute that forbids comparison of property
     /// </summary>
