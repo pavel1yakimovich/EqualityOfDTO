@@ -42,8 +42,9 @@
   <ItemGroup>
     <Compile Include="AccuracyAttribute.cs" />
     <Compile Include="CustomComparer.cs" />
-    <Compile Include="NotComparable.cs" />
+    <Compile Include="NotComparableAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WrongAccuracyUsageException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,7 @@
-﻿namespace ComparerLibrary
-{
-    using System;
+﻿using System;
 
+namespace ComparerLibrary
+{
     /// <summary>
     /// Attribute that forbids comparison of property
     /// </summary>

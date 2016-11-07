@@ -1,7 +1,7 @@
-﻿namespace ComparerLibrary
-{
-    using System;
+﻿using System;
 
+namespace ComparerLibrary
+{
     public enum DateItem
     {
         Year,
@@ -19,6 +19,10 @@
     [AttributeUsage(AttributeTargets.Property)]
     public class AccuracyAttribute : Attribute
     {
+        public int Digits { get; set; }
+
+        public DateItem Date { get; set; }
+
         /// <summary>
         /// Sets number of digits after coma to compare
         /// </summary>
@@ -36,9 +40,5 @@
         {
             this.Date = date;
         }
-
-        public int Digits { get; set; }
-
-        public DateItem Date { get; set; }
     }
 }

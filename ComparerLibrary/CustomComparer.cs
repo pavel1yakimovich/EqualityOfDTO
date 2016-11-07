@@ -1,9 +1,10 @@
-﻿namespace ComparerLibrary
-{
-    using System;
-    using System.Reflection;
+﻿using System;
+using System.Reflection;
+using static System.Math;
 
-    public static class CustomComparer<T>
+namespace ComparerLibrary
+{
+    public static class CustomComparer
     {
         /// <summary>
         /// Method that compares 2 DTO
@@ -29,9 +30,9 @@
 
             var propertiesNames = elem1.GetType().GetProperties();
 
-            foreach (PropertyInfo property in propertiesNames)
+            foreach (var property in propertiesNames)
             {
-                if (CheckNotComparableAttribute(property))
+                if (property.GetCustomAttributes(typeof(NotComparableAttribute), false).Length != 0)
                 {
                     continue;
                 }
@@ -39,12 +40,12 @@
                 var prop1 = elem1.GetType().GetProperty(property.Name).GetValue(elem1);
                 var prop2 = elem2.GetType().GetProperty(property.Name).GetValue(elem2);
 
-                if (ReferenceEquals(prop1, prop2))
+                if (CheckAccuracyAttribute(property, prop1, prop2))
                 {
                     continue;
                 }
-
-                if (CheckAccuracyAttribute(property, prop1, prop2))
+                
+                if (ReferenceEquals(prop1, prop2))
                 {
                     continue;
                 }
@@ -65,52 +66,35 @@
             return true;
         }
 
-        private static bool CheckNotComparableAttribute(PropertyInfo property)
-        {
-            var attrs = property.CustomAttributes;
-
-            foreach (var item in attrs)
-            {
-                if (item.AttributeType.FullName == typeof(NotComparableAttribute).FullName)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         private static bool CheckAccuracyAttribute(PropertyInfo property, object obj1, object obj2)
         {
-            var attrs = property.CustomAttributes;
-            
-            foreach (var item in attrs)
+            var attr = (AccuracyAttribute)property.GetCustomAttribute(typeof(AccuracyAttribute), false);
+            if (ReferenceEquals(attr, null))
             {
-                if (item.AttributeType.FullName == typeof(AccuracyAttribute).FullName)
-                {
-                    if (obj1.GetType() == typeof(DateTime))
-                    {
-                        DateItem accuracy = DateItem.Day;
-                        return CompareDates((DateTime)obj1, (DateTime)obj1, accuracy);
-                    }
-
-                    if (obj1.GetType() == typeof(double) || obj1.GetType() == typeof(float))
-                    {
-                        int accuracy = 1;
-                        return Math.Round((double)obj1, accuracy) == 
-                            Math.Round((double)obj2, accuracy);
-                    }
-
-                    if (obj1.GetType() == typeof(decimal))
-                    {
-                        int accuracy = 1;
-                        return decimal.Round((decimal)obj1, accuracy) ==
-                            decimal.Round((decimal)obj2, accuracy);
-                    }
-                }
+                return false;
             }
 
-            return false;
+            if (obj1 is DateTime)
+            {
+                var accuracy = attr.Date;
+                return CompareDates((DateTime)obj1, (DateTime)obj1, accuracy);
+            }
+
+            if (obj1 is double || obj1 is float)
+            {
+                var accuracy = attr.Digits;
+                return Round((double)obj1, accuracy) == 
+                    Round((double)obj2, accuracy);
+            }
+
+            if (obj1 is decimal)
+            {
+                var accuracy = attr.Digits;
+                return decimal.Round((decimal)obj1, accuracy) ==
+                       decimal.Round((decimal)obj2, accuracy);
+            }
+
+            throw new WrongAccuracyUsageException("Wrong type of property.");
         }
 
         private static bool CompareDates(DateTime date1, DateTime date2, DateItem parameter)
@@ -138,7 +122,7 @@
                 case DateItem.Millisecond:
                     return date1 == date2;
 
-                default: return false;
+                default: throw new WrongAccuracyUsageException("Wrong DateItem.");
             }
         }
     }
