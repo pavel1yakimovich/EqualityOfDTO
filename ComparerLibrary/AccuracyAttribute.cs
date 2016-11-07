@@ -19,17 +19,17 @@ namespace ComparerLibrary
     [AttributeUsage(AttributeTargets.Property)]
     public class AccuracyAttribute : Attribute
     {
-        public int Digits { get; set; }
+        public double Epsilon { get; set; }
 
         public DateItem Date { get; set; }
-
+        
         /// <summary>
-        /// Sets number of digits after coma to compare
+        /// Sets tolerance to compare numbers
         /// </summary>
-        /// <param name="digits">number of digits</param>
-        public AccuracyAttribute(int digits)
+        /// <param name="epsilon">tolerance</param>
+        public AccuracyAttribute(double epsilon)
         {
-            this.Digits = digits;
+            this.Epsilon = epsilon;
         }
 
         /// <summary>

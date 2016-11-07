@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using static System.Math;
 
 namespace ComparerLibrary
 {
@@ -82,16 +81,14 @@ namespace ComparerLibrary
 
             if (obj1 is double || obj1 is float)
             {
-                var accuracy = attr.Digits;
-                return Round((double)obj1, accuracy) == 
-                    Round((double)obj2, accuracy);
+                var accuracy = attr.Epsilon;
+                return (double)obj1 - (double)obj2 < accuracy;
             }
 
             if (obj1 is decimal)
             {
-                var accuracy = attr.Digits;
-                return decimal.Round((decimal)obj1, accuracy) ==
-                       decimal.Round((decimal)obj2, accuracy);
+                var accuracy = attr.Epsilon;
+                return (decimal)obj1 - (decimal)obj2 < (decimal)accuracy;
             }
 
             throw new WrongAccuracyUsageException("Wrong type of property.");

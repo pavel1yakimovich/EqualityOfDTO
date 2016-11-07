@@ -11,7 +11,7 @@ namespace ComparerLibraryTests
         [Accuracy(DateItem.Hour)]
         public DateTime Prop3 { get; set; }
 
-        [Accuracy(2)]
+        [Accuracy(0.002)]
         public double Prop4 { get; set; }
 
         public TestStructWithDate(int prop1, char prop2, DateTime prop3, double prop4)

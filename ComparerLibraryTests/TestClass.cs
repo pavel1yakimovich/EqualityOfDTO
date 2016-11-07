@@ -10,11 +10,12 @@ namespace ComparerLibraryTests
         [NotComparable]
         public string Prop3 { get; set; }
 
-        public double Prop4 { get; set; }
+        [Accuracy(0.0004)]
+        public decimal Prop4 { get; set; }
 
         public TestClass CompositeProp { get; set; }
 
-        public TestStruct(int prop1, char prop2, string prop3, double prop4, TestClass prop5)
+        public TestStruct(int prop1, char prop2, string prop3, decimal prop4, TestClass prop5)
         {
             this.prop1 = prop1;
             this.prop2 = prop2;
@@ -32,7 +33,7 @@ namespace ComparerLibraryTests
         [NotComparable]
         public string Prop3 { get; set; }
 
-        [Accuracy(2)]
+        [Accuracy(0.001)]
         public double Prop4 { get; set; }
 
         public TestClass CompositeProp { get; set; }

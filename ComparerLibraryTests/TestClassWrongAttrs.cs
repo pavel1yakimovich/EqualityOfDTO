@@ -5,7 +5,7 @@ namespace ComparerLibraryTests
 {
     public class TestClassWrongAttrs
     {
-        [Accuracy(2)]
+        [Accuracy(0.002)]
         public string Prop { get; set; }
 
         public TestClassWrongAttrs(string str)
