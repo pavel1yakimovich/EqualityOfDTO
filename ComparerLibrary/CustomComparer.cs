@@ -14,7 +14,7 @@ namespace ComparerLibrary
         /// </summary>
         /// <param name="elem1">1st DTO</param>
         /// <param name="elem2">2nd DTO</param>
-        /// <returns>true - equal, false - not equal</returns>
+        /// <returns>List of different properties. Empty if DTO are equal</returns>
         public static IEnumerable<PropertyInfo> Compare(object elem1, object elem2)
         {
             if (ReferenceEquals(elem1, elem2))
