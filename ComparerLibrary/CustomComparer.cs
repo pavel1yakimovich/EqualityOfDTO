@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace ComparerLibrary
 {
@@ -11,20 +15,21 @@ namespace ComparerLibrary
         /// <param name="elem1">1st DTO</param>
         /// <param name="elem2">2nd DTO</param>
         /// <returns>true - equal, false - not equal</returns>
-        public static bool Compare(object elem1, object elem2)
+        public static IEnumerable<PropertyInfo> Compare(object elem1, object elem2)
         {
             if (ReferenceEquals(elem1, elem2))
             {
-                return true;
+                return new List<PropertyInfo>();
             }
 
             if (elem1.Equals(elem2))
             {
-                return true;
+                return new List<PropertyInfo>();
             }
             else if (elem1.GetType().GetProperties().Length == 0)
             {
-                return false;
+                var anon = new { property = elem1 }.GetType().GetProperties()[0];
+                return new List<PropertyInfo>() { anon };
             }
 
             var propertiesNames = elem1.GetType().GetProperties();
@@ -54,15 +59,15 @@ namespace ComparerLibrary
                     continue;
                 }
 
-                if (Compare(prop1, prop2))
+                if (!Compare(prop1, prop2).Any())
                 {
                     continue;
                 }
 
-                return false;
+                return new List<PropertyInfo>() { property };
             }
 
-            return true;
+            return new List<PropertyInfo>();
         }
 
         private static bool CheckAccuracyAttribute(PropertyInfo property, object obj1, object obj2)
