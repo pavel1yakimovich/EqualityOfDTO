@@ -17,16 +17,6 @@ namespace ComparerLibrary
         {
             var result = new List<PropertyTree>();
 
-            if (ReferenceEquals(obj1, obj2))
-            {
-                return result;
-            }
-
-            if (obj1.Equals(obj2))
-            {
-                return result;
-            }
-
             var propertiesNames = obj1.GetType().GetProperties();
 
             foreach (var property in propertiesNames)
