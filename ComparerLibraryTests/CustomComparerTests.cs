@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ComparerLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -66,7 +67,7 @@ namespace ComparerLibraryTests
         }
 
         [TestMethod]
-        public void CompareTwoObjectsWithAccuracyhAttributesDifferentDates()
+        public void CompareTwoObjectsWithAccuracyAttributesDifferentDates()
         {
             var var1 = new TestClassWithDate(2, 'e', new DateTime(2016, 01, 01, 9, 13, 14, 16), 1.65);
             var var2 = new TestClassWithDate(2, 'e', new DateTime(2016, 01, 01, 11, 11, 12, 15), 1.65);
@@ -75,7 +76,7 @@ namespace ComparerLibraryTests
         }
 
         [TestMethod]
-        public void CompareTwoObjectsWithAccuracyhAttributesSameNumbers()
+        public void CompareTwoObjectsWithAccuracyAttributesSameNumbers()
         {
             var var1 = new TestClass(1, 'q', "qwe", 2.3675, null, new TestStruct(2, 'w', "2345", 1.65m, null));
             var var2 = new TestClass(1, 'q', "qwe", 2.3683, null, new TestStruct(2, 'w', "1234", 1.65m, null));
@@ -84,7 +85,7 @@ namespace ComparerLibraryTests
         }
 
         [TestMethod]
-        public void CompareTwoObjectsWithAccuracyhAttributesDifferentNumbers()
+        public void CompareTwoObjectsWithAccuracyAttributesDifferentNumbers()
         {
             var var1 = new TestClass(1, 'q', "qwe", 2.3775, null, new TestStruct(2, 'w', "2345", 1.65m, null));
             var var2 = new TestClass(1, 'q', "qwe", 2.3683, null, new TestStruct(2, 'w', "1234", 1.65m, null));
@@ -93,7 +94,7 @@ namespace ComparerLibraryTests
         }
 
         [TestMethod]
-        public void CompareTwoObjectsWithAccuracyhAttributesVeryDifferentNumbers()
+        public void CompareTwoObjectsWithAccuracyAttributesVeryDifferentNumbers()
         {
             var var1 = new TestClass(1, 'q', "qwe", 2.39, null, new TestStruct(2, 'w', "2345", 1.65m, null));
             var var2 = new TestClass(1, 'q', "qwe", 2.3683, null, new TestStruct(2, 'w', "1234", 1.65m, null));
@@ -102,7 +103,7 @@ namespace ComparerLibraryTests
         }
 
         [TestMethod]
-        public void CompareTwoObjectsWithAccuracyhAttributesVeryDifferentDecimalNumbers()
+        public void CompareTwoObjectsWithAccuracyAttributesVeryDifferentDecimalNumbers()
         {
             var var1 = new TestClass(1, 'q', "qwe", 2.39, null, new TestStruct(2, 'w', "2345", 1.6544m, null));
             var var2 = new TestClass(1, 'q', "qwe", 2.3683, null, new TestStruct(2, 'w', "1234", 1.612m, null));
@@ -118,6 +119,73 @@ namespace ComparerLibraryTests
             var var2 = new TestClassWrongAttrs("qwerty");
 
             Compare(var1, var2);
+        }
+
+        [TestMethod]
+        public void CompareTwoDifferentSimpleObjectsDepthTwo()
+        {
+            var var1 = new SimpleTestClass() { IntProp = 1, StringProp = "q", CompositeProp = new SimpleTestClass() { IntProp = 1, StringProp = "q" } };
+            var var2 = new SimpleTestClass() { IntProp = 2, StringProp = "q", CompositeProp = new SimpleTestClass() { IntProp = 2, StringProp = "w" } };
+
+            var expected = new List<PropertyTree>() { new PropertyTree() { Info = var1.GetType().GetProperty("IntProp"), Tree = new List<PropertyTree>() }, new PropertyTree() { Info = var1.GetType().GetProperty("CompositeProp"), Tree = new List<PropertyTree>() { new PropertyTree() { Info = var1.GetType().GetProperty("IntProp"), Tree = new List<PropertyTree>() }, new PropertyTree() { Info = var1.GetType().GetProperty("StringProp"), Tree = new List<PropertyTree>() } } } };
+
+            var actualData = Compare(var1, var2);
+
+            var flag = expected[0].Info.Equals(actualData[0].Info) && !actualData[0].Tree.Any()
+                && expected[1].Info.Equals(actualData[1].Info) && expected[1].Tree[0].Info.Equals(actualData[1].Tree[0].Info)
+                && !actualData[1].Tree[0].Tree.Any() && expected[1].Tree[1].Info.Equals(actualData[1].Tree[1].Info)
+                && !actualData[1].Tree[1].Tree.Any();
+
+            Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void CompareTwoDifferentSimpleObjectsDepthThree()
+        {
+            var var1 = new SimpleTestClass()
+            {
+                IntProp = 1,
+                StringProp = "q",
+                CompositeProp = new SimpleTestClass()
+                {
+                    IntProp = 1,
+                    StringProp = "q",
+                    CompositeProp = new SimpleTestClass()
+                    {
+                        IntProp = 1,
+                        StringProp = "q"
+                    }
+                },
+                DoubleProp = 4.3,
+                StructProp = new SimpleTestStruct()
+                {
+                    IntProp = 1,
+                    StringProp = "q"
+                }
+            };
+            var var2 = new SimpleTestClass()
+            {
+                IntProp = 2,
+                StringProp = "q",
+                CompositeProp = new SimpleTestClass()
+                {
+                    IntProp = 2,
+                    StringProp = "w",
+                    CompositeProp = new SimpleTestClass()
+                    {
+                        IntProp = 1,
+                        StringProp = "w"
+                    }
+                },
+                DoubleProp = 2.3,
+                StructProp = new SimpleTestStruct()
+                {
+                    IntProp = 1,
+                    StringProp = "w"
+                }
+            };
+            
+            var actualData = Compare(var1, var2);
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace ComparerLibrary
 {
@@ -12,27 +10,24 @@ namespace ComparerLibrary
         /// <summary>
         /// Method that compares 2 DTO
         /// </summary>
-        /// <param name="elem1">1st DTO</param>
-        /// <param name="elem2">2nd DTO</param>
-        /// <returns>List of different properties. Empty if DTO are equal</returns>
-        public static IEnumerable<PropertyInfo> Compare(object elem1, object elem2)
+        /// <param name="obj1">1st DTO</param>
+        /// <param name="obj2">2nd DTO</param>
+        /// <returns>List of different PropertyTrees. Empty if DTO are equal</returns>
+        public static List<PropertyTree> Compare<T>(T obj1, T obj2)
         {
-            if (ReferenceEquals(elem1, elem2))
+            var result = new List<PropertyTree>();
+
+            if (ReferenceEquals(obj1, obj2))
             {
-                return new List<PropertyInfo>();
+                return result;
             }
 
-            if (elem1.Equals(elem2))
+            if (obj1.Equals(obj2))
             {
-                return new List<PropertyInfo>();
-            }
-            else if (elem1.GetType().GetProperties().Length == 0)
-            {
-                var anon = new { property = elem1 }.GetType().GetProperties()[0];
-                return new List<PropertyInfo>() { anon };
+                return result;
             }
 
-            var propertiesNames = elem1.GetType().GetProperties();
+            var propertiesNames = obj1.GetType().GetProperties();
 
             foreach (var property in propertiesNames)
             {
@@ -41,14 +36,14 @@ namespace ComparerLibrary
                     continue;
                 }
 
-                var prop1 = elem1.GetType().GetProperty(property.Name).GetValue(elem1);
-                var prop2 = elem2.GetType().GetProperty(property.Name).GetValue(elem2);
+                var prop1 = property.GetValue(obj1);
+                var prop2 = property.GetValue(obj2);
 
                 if (CheckAccuracyAttribute(property, prop1, prop2))
                 {
                     continue;
                 }
-                
+
                 if (ReferenceEquals(prop1, prop2))
                 {
                     continue;
@@ -59,15 +54,25 @@ namespace ComparerLibrary
                     continue;
                 }
 
-                if (!Compare(prop1, prop2).Any())
+                if (property.PropertyType.GetProperties().Length == 0 || property.PropertyType == typeof(string))
+                {
+                    result.Add(new PropertyTree { Info = property, Tree = new List<PropertyTree>() });
+                    continue;
+                }
+                
+                var comparison = Compare(prop1, prop2);
+
+                if (!comparison.Any())
                 {
                     continue;
                 }
-
-                return new List<PropertyInfo>() { property };
+                else
+                {
+                    result.Add(new PropertyTree { Info = property, Tree = comparison });
+                }
             }
 
-            return new List<PropertyInfo>();
+            return result;
         }
 
         private static bool CheckAccuracyAttribute(PropertyInfo property, object obj1, object obj2)
