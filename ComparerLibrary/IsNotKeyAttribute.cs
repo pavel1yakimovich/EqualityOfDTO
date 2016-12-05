@@ -10,7 +10,7 @@ namespace ComparerLibrary
     {
         public bool Flag { get; set; }
 
-        public IsKeyAttribute() : this(true)
+        public IsKeyAttribute() : this(false)
         {
         }
 

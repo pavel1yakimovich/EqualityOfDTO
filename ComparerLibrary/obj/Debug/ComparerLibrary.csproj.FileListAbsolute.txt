@@ -8,3 +8,8 @@ E:\Учеба\4 курс\EqualityOfDTO\ComparerLibrary\bin\Debug\ComparerLibrary
 E:\Учеба\4 курс\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.dll
 E:\Учеба\4 курс\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.pdb
 E:\Учеба\4 курс\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Pavel_Yakimovich\Desktop\EqualityOfDTO\ComparerLibrary\bin\Debug\ComparerLibrary.dll
+C:\Users\Pavel_Yakimovich\Desktop\EqualityOfDTO\ComparerLibrary\bin\Debug\ComparerLibrary.pdb
+C:\Users\Pavel_Yakimovich\Desktop\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Pavel_Yakimovich\Desktop\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.dll
+C:\Users\Pavel_Yakimovich\Desktop\EqualityOfDTO\ComparerLibrary\obj\Debug\ComparerLibrary.pdb

@@ -17,5 +17,7 @@ namespace ComparerLibrary
         /// List of different sub-properties
         /// </summary>
         public List<PropertyTree> Tree { get; set; }
+
+        //public CollectionReport<T> CollectionInfo { get; set; }
     }
 }

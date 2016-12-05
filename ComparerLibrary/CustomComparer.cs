@@ -5,6 +5,37 @@ using System.Reflection;
 
 namespace ComparerLibrary
 {
+    public struct SimpleTestStruct
+    {
+        public int IntProp { get; set; }
+
+        public string StringProp { get; set; }
+    }
+
+    public class SimpleTestClass
+    {
+        [IsKey]
+        public int IntProp { get; set; }
+
+        public string StringProp { get; set; }
+
+        public SimpleTestClass CompositeProp { get; set; }
+
+        public double DoubleProp { get; set; }
+
+        public SimpleTestStruct StructProp { get; set; }
+    }
+
+    public class TestClassWithList
+    {
+        public List<SimpleTestClass> list { get; set; }
+
+        public TestClassWithList()
+        {
+            list = new List<SimpleTestClass>();
+        }
+    }
+
     public static class CustomComparer
     {
         /// <summary>
@@ -16,7 +47,7 @@ namespace ComparerLibrary
         public static List<PropertyTree> Compare<T>(T obj1, T obj2)
         {
             var result = new List<PropertyTree>();
-
+            
             var propertiesNames = obj1.GetType().GetProperties();
 
             foreach (var property in propertiesNames)
@@ -37,6 +68,11 @@ namespace ComparerLibrary
                 if (ReferenceEquals(prop1, prop2))
                 {
                     continue;
+                }
+
+                if (prop1.GetType().GetInterfaces().Where(i => i.Name == typeof(IEnumerable<T>).Name).Any() && !(prop1 is string))
+                {
+                    CompareCollection(prop1 as IEnumerable<SimpleTestClass>, prop2 as IEnumerable<SimpleTestClass>);
                 }
 
                 if (prop1.Equals(prop2))
@@ -121,6 +157,90 @@ namespace ComparerLibrary
 
                 default: throw new WrongAccuracyUsageException("Wrong DateItem.");
             }
+        }
+
+        private static CollectionReport<T> CompareCollection<T>(IEnumerable<T> oldCollection, IEnumerable<T> newCollection)
+        {
+            var keys = typeof(T).GetProperties().Where(p => p.GetCustomAttributes<IsKeyAttribute>().Any());
+
+            var result = new CollectionReport<T>();
+
+            var comparer = new CollectionPropertyComparer<T>(keys);
+
+            foreach (T item in oldCollection)
+            {
+                var props = item.GetType().GetProperties().Where(p => keys.Contains(p));
+
+                comparer.Equals(item, newCollection.First());
+
+                if (!newCollection.Contains(item, comparer))
+                {
+                    result.Removed.Add(item);
+                }
+                else
+                {
+                    var newItem = newCollection.FirstOrDefault(i => comparer.Equals(i, item));
+
+                    var comparisonResult = Compare(item, newItem);
+
+                    if (comparisonResult.Any())
+                    {
+                        result.Updated.Add(item, comparisonResult);
+                    }
+                }
+            }
+
+            foreach (T item in newCollection)
+            {
+                if (!oldCollection.Contains(item, comparer))
+                {
+                    result.Added.Add(item);
+                }
+            }
+
+            return result;
+        }
+    }
+
+    class CollectionPropertyComparer<T> : IEqualityComparer<T>
+    {
+        private IEnumerable<PropertyInfo> keys;
+        
+        public CollectionPropertyComparer(IEnumerable<PropertyInfo> keys)
+        {
+            this.keys = keys;
+        }
+
+        public bool Equals(T x, T y)
+        {
+            try
+            {
+                foreach (var prop in keys)
+                {
+                    if (CustomComparer.Compare(prop.GetValue(x), prop.GetValue(y)).Any()) //if int it's false
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public int GetHashCode(T obj)
+        {
+            int hash = 0;
+
+            foreach (var prop in keys)
+            {
+                hash += prop.GetValue(obj).GetHashCode();
+            }
+
+            return hash;
         }
     }
 }

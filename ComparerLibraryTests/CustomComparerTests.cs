@@ -187,5 +187,19 @@ namespace ComparerLibraryTests
             
             var actualData = Compare(var1, var2);
         }
+
+        [TestMethod]
+        public void CompareClassWithList()
+        {
+            var var1 = new TestClassWithList();
+            var var2 = new TestClassWithList();
+
+            var1.list.Add(new SimpleTestClass() { IntProp = 1, StringProp = "qwerty", DoubleProp = 2.2 });
+            var1.list.Add(new SimpleTestClass() { IntProp = 3, StringProp = "qwerty", DoubleProp = 2.2 });
+            var2.list.Add(new SimpleTestClass() { IntProp = 1, StringProp = "qq", DoubleProp = 2.2 });
+            var2.list.Add(new SimpleTestClass() { IntProp = 2, StringProp = "qq", DoubleProp = 2.2 });
+
+            Compare(var1, var2);
+        }
     }
 }

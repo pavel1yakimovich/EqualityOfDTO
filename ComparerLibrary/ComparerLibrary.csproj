@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccuracyAttribute.cs" />
+    <Compile Include="CollectionReport.cs" />
     <Compile Include="CustomComparer.cs" />
+    <Compile Include="IsNotKeyAttribute.cs" />
     <Compile Include="NotComparableAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyTree.cs" />
